@@ -12,8 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'first_name',
                   'last_name',)
 
-        read_only_fields = ['username']
-
 
 class AdvertisementSerializer(serializers.ModelSerializer):
     """Serializer для объявления."""
@@ -26,10 +24,10 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         model = Advertisement
         fields = ('id', 'title', 'description', 'creator',
                   'status', 'created_at', )
+        read_only_fields = ['creator']
 
     def create(self, validated_data):
         """Метод для создания"""
-
         # Простановка значения поля создатель по-умолчанию.
         # Текущий пользователь является создателем объявления
         # изменить или переопределить его через API нельзя.
@@ -41,8 +39,11 @@ class AdvertisementSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """Метод для валидации. Вызывается при создании и обновлении."""
-        if data['OPEN'] > 10:
-            raise serializers.ValidationError('too many open adws')
+        # val = self.validated_data.is_valid()
+        # val.is_valid()
+        # # print(self.validated_data)
+        # if Advertisement.objects.filter(creator=val['creator'], status='OPEN').count() > 10:
+        #     raise serializers.ValidationError('too many open adws')
         # TODO: добавьте требуемую валидацию
 
         return data
