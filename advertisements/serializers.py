@@ -39,11 +39,8 @@ class AdvertisementSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """Метод для валидации. Вызывается при создании и обновлении."""
-        # val = self.validated_data.is_valid()
-        # val.is_valid()
-        # # print(self.validated_data)
-        # if Advertisement.objects.filter(creator=val['creator'], status='OPEN').count() > 10:
-        #     raise serializers.ValidationError('too many open adws')
+        if Advertisement.objects.filter(creator=self.context["request"].user, status='OPEN').count() > 10:
+            raise serializers.ValidationError('too many open adws')
         # TODO: добавьте требуемую валидацию
 
         return data

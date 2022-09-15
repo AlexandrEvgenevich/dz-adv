@@ -29,11 +29,7 @@ class AdvertisementViewSet(ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwner]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-    # def post(self, request):
-    #     adv = Advertisement.objects.create(title=request.data['title'], description=request.data['description'])
-    #     return {request: 'saved'}
+        serializer.save(creator=self.request.user)
 
     # TODO: настройте ViewSet, укажите атрибуты для кверисета,
     #   сериализаторов и фильтров
